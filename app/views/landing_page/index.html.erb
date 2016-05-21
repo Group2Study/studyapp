@@ -1,0 +1,11 @@
+<h1>Group2Study</h1>
+
+<ul>
+  <li>Cadastro</li>
+  <li>Busca</li>
+
+  <% if user_signed_in? %>
+  USUARIO LOGADO
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+  <% end %>
+</ul>
