@@ -5,7 +5,12 @@
   <li>Busca</li>
 
   <% if user_signed_in? %>
-  USUARIO LOGADO
+  <li>USUARIO LOGADO
   <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-  <% end %>
+  </li>
+<% else %>
+  <li>
+  <%= link_to('Login', new_user_session_path)  %>
+  </li>
+<% end %>
 </ul>
