@@ -8,4 +8,10 @@
   USUARIO LOGADO
   <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
   <% end %>
+
+  <div id="tags">
+    <tr v-for="tag in tags">
+      <td>{{ tag.name }}</td>
+    </tr>
+  </div>
 </ul>

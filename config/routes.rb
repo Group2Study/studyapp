@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
+  get 'tags/index'
+
   root to: 'landing_page#index'
+
+  controller 'tags' do
+    get '/tags' => :index
+  end
 
   #get 'landing_page/index'
 
