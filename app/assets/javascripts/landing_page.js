@@ -1,7 +1,11 @@
 var tags = new Vue({
   el: '#tags',
   data: {
-    tags: []
+    tags: [],
+    tag: {
+      name: ''
+    },
+    errors: {}
   },
   ready: function() {
     var that;
@@ -12,5 +16,5 @@ var tags = new Vue({
         that.tags = res;
       }
     });
-  }
+  },
 });

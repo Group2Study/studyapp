@@ -6,4 +6,13 @@ class TagsController < ApplicationController
       format.json { render :json => @tags }
     end
   end
+
+  def create
+    
+  end
+
+  def search_groups
+    puts @params
+  end
+
 end
