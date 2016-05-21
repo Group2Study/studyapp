@@ -4,9 +4,9 @@
 <ul>
   
   <li>Busca 
-    <form action="<%= tags_path %>/search_groups">
+    <form>
       <input type="text">
-      <input type="submit" value="Procurar">
+      <button @click="searchGroups">Hire</button>
     </form>
   </li>
 
@@ -25,5 +25,9 @@
 
 
 <div id="tags">
-  {{ tags }}
+  <ul>
+    <li v-for="tag in tags">
+      {{ tag.name }}
+    </li>
+  </ul>
 </div>
