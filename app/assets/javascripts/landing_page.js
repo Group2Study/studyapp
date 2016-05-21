@@ -17,4 +17,25 @@ var tags = new Vue({
       }
     });
   },
+  methods: {
+    searchTags: function (value) {
+      alert(value);
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: value,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          that.employee = {}
+          that.employees.push(res);
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+    }
+  }
 });

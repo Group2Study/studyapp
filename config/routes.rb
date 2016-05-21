@@ -4,11 +4,12 @@ Rails.application.routes.draw do
 
   root to: 'landing_page#index'
 
-  #controller 'tags' do
-  #  get '/tags' => :index
-  #  get '/tags/search_groups' => :search_groups
-  #end
+  controller 'tags' do
+    get '/tags' => :index
+    get '/tags/search_groups' => :search_groups
+  end
 
+  #facilita acesso a resourses
   resources :tags
   #get 'landing_page/index'
 
