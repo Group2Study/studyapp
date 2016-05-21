@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  meeting_id: 
+  tags_id: 
+
+two:
+  meeting_id: 
+  tags_id: 

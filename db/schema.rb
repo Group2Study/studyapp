@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160521193636) do
+ActiveRecord::Schema.define(version: 20160521233728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "group_messages", force: true do |t|
+  create_table "group_messages", force: :cascade do |t|
     t.text     "message"
     t.integer  "group_id"
     t.datetime "created_at"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160521193636) do
 
   add_index "group_messages", ["group_id"], name: "index_group_messages_on_group_id", using: :btree
 
-  create_table "group_tags", force: true do |t|
+  create_table "group_tags", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "tag_id"
     t.datetime "created_at"
@@ -35,19 +35,39 @@ ActiveRecord::Schema.define(version: 20160521193636) do
   add_index "group_tags", ["group_id"], name: "index_group_tags_on_group_id", using: :btree
   add_index "group_tags", ["tag_id"], name: "index_group_tags_on_tag_id", using: :btree
 
-  create_table "groups", force: true do |t|
+  create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tags", force: true do |t|
+  create_table "meeting_tags", force: :cascade do |t|
+    t.integer  "meeting_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "meeting_tags", ["meeting_id"], name: "index_meeting_tags_on_meeting_id", using: :btree
+  add_index "meeting_tags", ["tag_id"], name: "index_meeting_tags_on_tag_id", using: :btree
+
+  create_table "meetings", force: :cascade do |t|
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.integer  "group_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "meetings", ["group_id"], name: "index_meetings_on_group_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -65,4 +85,5 @@ ActiveRecord::Schema.define(version: 20160521193636) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "meetings", "groups"
 end
