@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160521193636) do
+ActiveRecord::Schema.define(version: 20160521232523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "group_messages", force: true do |t|
+  create_table "group_messages", force: :cascade do |t|
     t.text     "message"
     t.integer  "group_id"
     t.datetime "created_at"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160521193636) do
 
   add_index "group_messages", ["group_id"], name: "index_group_messages_on_group_id", using: :btree
 
-  create_table "group_tags", force: true do |t|
+  create_table "group_tags", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "tag_id"
     t.datetime "created_at"
@@ -35,29 +35,41 @@ ActiveRecord::Schema.define(version: 20160521193636) do
   add_index "group_tags", ["group_id"], name: "index_group_tags_on_group_id", using: :btree
   add_index "group_tags", ["tag_id"], name: "index_group_tags_on_tag_id", using: :btree
 
-  create_table "groups", force: true do |t|
-    t.string   "name"
+  create_table "groups", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tags", force: true do |t|
+  create_table "tag_types", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "tags", force: :cascade do |t|
+    t.string   "name",          limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tag_type_id"
+    t.integer  "parent_tag_id"
+  end
+
+  add_index "tags", ["parent_tag_id"], name: "index_tags_on_parent_tag_id", using: :btree
+  add_index "tags", ["tag_type_id"], name: "index_tags_on_tag_type_id", using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
