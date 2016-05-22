@@ -7,6 +7,7 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @group_id = params[:id]
     respond_to do |format|
       #format.html
       format.json do
