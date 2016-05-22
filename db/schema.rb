@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20160522062923) do
   add_index "group_tags", ["tag_id"], name: "index_group_tags_on_tag_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name",          limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "private"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(version: 20160522062923) do
   create_table "meetings", force: :cascade do |t|
     t.time     "start_time"
     t.time     "end_time"
-    t.date     "date"
     t.integer  "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -101,7 +100,7 @@ ActiveRecord::Schema.define(version: 20160522062923) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name",          limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tag_type_id"
@@ -112,16 +111,16 @@ ActiveRecord::Schema.define(version: 20160522062923) do
   add_index "tags", ["tag_type_id"], name: "index_tags_on_tag_type_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -133,4 +132,5 @@ ActiveRecord::Schema.define(version: 20160522062923) do
   add_foreign_key "group_administrators", "users"
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "users"
+  add_foreign_key "meetings", "groups"
 end
