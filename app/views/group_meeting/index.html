@@ -1,8 +1,8 @@
-GROUP MEETING
+<h1>Grupo de EStudo - <%= @group.name %></h1>
 
 <div id="group_meeting">
 
-  <a href="/groups/meetings/">VOLTAR</a><br>
+  
 
   MENSAGENS:
 
@@ -12,9 +12,12 @@ GROUP MEETING
     </li>
   </ul>
 
-  ENVIAR MENSAGEM:
+
   <input type="text" v-model="message_input">
-  <button v-on:click="sendMessage">ENVIAR</button>
+  <a v-on:click="sendMessage" class="btn btn-primary btn-xl">ENVIAR</a>
+
+  <br>
+  <a href="/groups/meetings/" class="btn btn-primary btn-xl">VOLTAR</a><br>
 
 </div>
 
