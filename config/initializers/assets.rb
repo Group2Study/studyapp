@@ -13,11 +13,7 @@ Rails.application.config.assets.paths << Rails.root.join('bower_components')
 
 
 
-Rails.application.config.assets.precompile += %w( landing_page.js )
-
 Rails.application.config.assets.precompile += %w( groups.js )
 
-Rails.application.config.assets.precompile += %w( group_meeting.js )
 
-Rails.application.config.assets.precompile += %w( meetings.js )
 

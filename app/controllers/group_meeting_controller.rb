@@ -1,9 +1,10 @@
 class GroupMeetingController < ApplicationController
 
   def index
-    puts "GroupMeetingController: #{self.params[:id]}"
+    puts "GroupMeetingController: #{params[:id]}"
 
-    @meeting = Meeting.find_by("group_id = #{params[:id]}")
+    @meeting = Meeting.find(params[:id])
+
     if @meeting
       @group = @meeting.group
     end
@@ -15,7 +16,7 @@ class GroupMeetingController < ApplicationController
 
     puts "GroupMeetingController:send_message USER: #{current_user}"
 
-    @message = MeetingMessage.new(text: params[:message], meeting_id: params[:message])
+    @message = MeetingMessage.new(text: params[:message], meeting_id: params[:id])
     @message.save
 
     respond_to do |format|
@@ -28,11 +29,22 @@ class GroupMeetingController < ApplicationController
 
     puts "GroupMeetingController: MES: #{params[:last_message]} ID: #{params[:id]}"
 
-    if params[:last_message]
+    if params[:last_message] and not params[:last_message].empty?
+      @messages = MeetingMessage.all().where("meeting_id = #{params[:id]} and id > #{params[:last_message]}")
       #busca a partir dessas
     else
       #busca algumas mensagens
-      MeetingMessage.all(meeting_id: params[:id])
+      @messages = MeetingMessage.all().where(meeting_id: params[:id])
+    end
+
+    puts "GroupMeetingController: #{@messages}"
+
+    if @messages.empty?
+      @messages = nil
+    end
+
+    respond_to do |format|
+      format.json { render :json => @messages }
     end
   
   end
