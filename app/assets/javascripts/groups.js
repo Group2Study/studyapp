@@ -1,5 +1,5 @@
-var tags = new Vue({
-  el: '#tags',
+var groups = new Vue({
+  el: '#groups',
   data: {
     tags: [],
     tag: {
@@ -8,7 +8,7 @@ var tags = new Vue({
     errors: {}
   },
   ready: function() {
-    alert('ready');
+    //alert('ready groups');
   },
   methods: {
     executeMethod: function () {
