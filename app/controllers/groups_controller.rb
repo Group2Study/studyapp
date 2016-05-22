@@ -2,8 +2,6 @@ class GroupsController < ApplicationController
   def index
     @group_id = params[:id]
 
-    
-
   end
 
   def show

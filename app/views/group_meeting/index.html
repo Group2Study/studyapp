@@ -2,15 +2,9 @@ GROUP MEETING
 
 <div id="group_meeting">
 
-  <%= @meeting %><br>
-  <%= @group %><br>
+  <a href="/groups/meetings/">VOLTAR</a><br>
 
-
-  VOLTAR
-
-  MENSAGENS
-
-  ENVIAR MENSAGE
+  MENSAGENS:
 
   <ul>
     <li v-for="message in messages">
@@ -18,6 +12,7 @@ GROUP MEETING
     </li>
   </ul>
 
+  ENVIAR MENSAGEM:
   <input type="text" v-model="message_input">
   <button v-on:click="sendMessage">ENVIAR</button>
 
@@ -28,14 +23,15 @@ GROUP MEETING
 var group_meeting = new Vue({
   el: '#group_meeting',
   data: {
-    group_id: '',
-    meeting_id: '',
+    group_id: <%= @group.id %>,
+    meeting_id: <%= @meeting.id %>,
     messages: [],
     last_message: '',
     message_input: '',
     errors: {}
   },
   ready: function() {
+    this.updateMessages();
     //alert('ready group_meeting');
     //carregar as mensages que ja tem no grupo?
       //como receber o id?
@@ -48,6 +44,7 @@ var group_meeting = new Vue({
         method: 'POST',
         data: {
           message: this.message_input,
+          id: this.meeting_id
         },
         url: '/group_meeting/send_message.json',
         success: function(res) {
@@ -57,9 +54,10 @@ var group_meeting = new Vue({
         
           that.messages.push(res);
           that.last_message = res.id;
+          that.message_input = '';
 
           //last_message = res.id;
-          alert('last: ' + res.id);
+          //alert('last: ' + res.id);
           //that.tags = res;
         },
         error: function(res) {
@@ -69,8 +67,62 @@ var group_meeting = new Vue({
 
       //alert('GN: ' + this.group.name);
 
+    },
+    updateMessages: function () {
+      //alert('updateMessages');
+
+      var that = this;
+
+      $.ajax({
+        method: 'POST',
+        data: {
+          id: this.meeting_id,
+          last_message: this.last_message
+        },
+        url: '/group_meeting/get_messages.json',
+        success: function(res) {
+          that.errors = {}
+          //this.search_results = {}
+          //this.search_results.push(res);
+          //alert(res);
+
+
+          if (res)
+          {
+            //alert('msg: ' + res.length);
+
+            for (var i = 0; i < res.length; i++) {
+              that.messages.push(res[i]);
+              that.last_message = res[i].id;
+              //alert(myStringArray[i]);
+              //Do something
+            }
+
+
+            //that.messages.push(res);
+            //that.last_message = res.id;
+          }
+
+          setTimeout(that.updateMessages, 5000);
+
+          //last_message = res.id;
+          //alert('last: ' + res.id);
+          //that.tags = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+      /*
+      self.$http.post('api/posts', function(responce, status, request) {
+        self.posts = responce.data;
+        setTimeout(self.updateMessages, 2000);
+      });
+*/
+
     }
   }
+
 });
 
 </script>
