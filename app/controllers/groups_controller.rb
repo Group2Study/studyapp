@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
         if @group.save
           render :json => @group
         else
-          render :json => { errors:'true' }
+          render :json => { errors: 'true' }
         end
       end
     end
