@@ -21,3 +21,19 @@
 input {
   color: #222;
 }
+
+div#meetings div select.form-control {
+  width: 15%;
+  margin: 10px;
+}
+
+div#meetings div input {
+  width: 15%;
+  margin: 10px 0 0 0;
+}
+
+div#meetings.container div label {
+  width: 125px;
+  position: relative;
+  float: left;
+}
