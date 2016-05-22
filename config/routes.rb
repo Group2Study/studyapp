@@ -13,7 +13,8 @@ Rails.application.routes.draw do
     get '/groups' => :index
     post '/groups/new' => :new
     post '/groups/list' => :list
-    post 'groups/create' => :create
+    post '/groups/create' => :create
+    post '/groups/update' => :update
   end
 
   controller 'group_meeting' do

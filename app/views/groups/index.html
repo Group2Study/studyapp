@@ -1,11 +1,11 @@
 <h1>GROUPS#index</h1>
 
 <div id="groups">
-  <ul>
-    <li v-for="group in groups">
-      {{ group.name }}
+  <ol>
+    <li v-for="group in groups" track-by="$index">
+       <a v-on:click="editGroup($index)">{{ group.name }}</a>
     </li>
-  </ul>
+  </ol>
 
   <div v-show="adding_group">
     Nome: <input type="text" v-model="group.name">
