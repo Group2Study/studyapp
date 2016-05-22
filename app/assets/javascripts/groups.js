@@ -7,18 +7,21 @@ var groups = new Vue({
       private: false,
       administrable: false
     },
-    errors: {}
+    errors: {},
+    adding_group: false
   },
   ready: function() {
     //alert('ready groups');
-
+    var that = this;
     $.ajax({
       method: 'POST',
       url: '/groups/list.json',
       success: function(res) {
+        alert(res);
         that.errors = {}
-        that.groups = {}
-        that.groups.push(res);
+        //that.groups = []
+        //that.groups.push(res);
+        that.groups = res;
       },
       error: function(res) {
         that.errors = res.responseJSON.errors
@@ -28,7 +31,7 @@ var groups = new Vue({
   },
   methods: {
     createGroup: function () {
-      alert('GN: ' + this.group.name + ' ' + this.group.private + ' ' + this.group.administrable);
+      //alert('GN: ' + this.group.name + ' ' + this.group.private + ' ' + this.group.administrable);
       var that = this;
       $.ajax({
         method: 'POST',
@@ -38,14 +41,19 @@ var groups = new Vue({
         url: '/groups/create.json',
         success: function(res) {
           that.errors = {}
-          that.group = {}
+          //that.group = {}
           that.groups.push(res);
+          that.adding_group = false;
         },
         error: function(res) {
           that.errors = res.responseJSON.errors
         }
       })
 
+    },
+    addGroup: function()
+    {
+      this.adding_group = true;
     }
   }
 });
