@@ -5,7 +5,7 @@
 <h1>A forma mais eficiente de estudar</h1>
 
 
-        <input type="text" v-model="search_input" style="margin: 25px 0 0 0; width: 50%;">
+        <input type="text" v-on:keyup.enter="searchGroups" v-model="search_input" style="margin: 25px 0 0 0; width: 50%;">
         <br>
         <a v-on:click="searchGroups" class="btn btn-primary btn-xl" style="margin: 25px 0 0 0;" >Encontre seu grupo</a>
 
