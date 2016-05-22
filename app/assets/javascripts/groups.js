@@ -3,7 +3,9 @@ var groups = new Vue({
   data: {
     groups: [],
     group: {
-      name: ''
+      name: '',
+      private: false,
+      administrable: false
     },
     errors: {}
   },
@@ -26,25 +28,24 @@ var groups = new Vue({
   },
   methods: {
     createGroup: function () {
-      alert('GN: ' + this.group.name);
-      /*
+      alert('GN: ' + this.group.name + ' ' + this.group.private + ' ' + this.group.administrable);
       var that = this;
       $.ajax({
         method: 'POST',
         data: {
-          search: value,
+          data: this.group,
         },
-        url: '/tags/search.json',
+        url: '/groups/create.json',
         success: function(res) {
           that.errors = {}
-          that.employee = {}
-          that.employees.push(res);
+          that.group = {}
+          that.groups.push(res);
         },
         error: function(res) {
           that.errors = res.responseJSON.errors
         }
       })
-      */
+
     }
   }
 });
