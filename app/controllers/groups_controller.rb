@@ -114,6 +114,23 @@ class GroupsController < ApplicationController
     end
   end
 
+  def create_institute
+    name = params[:input]
+    group_id = params[:id]
+
+    tag_type = TagType.find_by("key = 'institute'")
+    tag = Tag.new(tag_type_id: tag_type.id, name: name)
+    tag.save
+
+    group_tag = GroupTag.new(group_id: group_id, tag_id: tag.id)
+    group_tag.save
+    
+    respond_to do |format|
+      #format.html
+      format.json { render :json => group_tag }
+    end
+  end
+
   def associate_institute
     group_id = params[:id]
     tag_id = params[:tag_id]

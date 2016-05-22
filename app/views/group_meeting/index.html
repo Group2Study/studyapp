@@ -29,7 +29,7 @@
     <div v-show="not_show_create_theme">
     <input type="text" v-model="theme_input" v-on:keyup="searchThemes">
 
-    <select v-model='current_selected_theme'>
+    <select v-model='current_selected_theme' class="form-control" style="width: 200px; display: inline">
       <option v-for="theme in themes" data-enumeration="true" value="{{ theme.id}}" >
         {{ theme.name }}
       </option>

@@ -45,7 +45,7 @@
         <div v-show="not_creating_insitute">
           Associar instituicao: <input type="text" v-model="institute_input" v-on:keyup="searchInstitue"></input>
 
-          <select v-model="selected_institute" data-enumeration="true">
+          <select v-model="selected_institute" data-enumeration="true" class="form-control" style="width: 200px; display: inline">
             <option v-for="institute in institutes" value="{{ institute.id }}">
               {{ institute.name }}
             </option>
@@ -215,6 +215,39 @@ var groups = new Vue({
     createInstitue: function()
     {
       alert('createInstitue');
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          id: this.group.id,
+          input: this.institute_create_input,
+        },
+        url: '/groups/create_institute.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          //alert(res);
+          //em geral nao vai retornar nada!
+          
+          that.creating_insitute = false;
+          that.not_creating_insitute = true;
+          that.institute_create_input = '';
+          that.adding_institute = false;
+          that.not_adding_institute = true;
+          that.institute_input = '';
+/*
+          if (res)
+          {
+            alert(res);
+            //that.institutes = res;
+          }
+          */
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
     },
     addInstitue: function()
     {

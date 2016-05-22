@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     post '/groups/create' => :create
     post '/groups/update' => :update
     post '/groups/associate_institute' => :associate_institute
+    post '/groups/create_institute' => :create_institute
     post '/groups/institutes' => :institutes
     post '/groups/themes' => :themes
 
