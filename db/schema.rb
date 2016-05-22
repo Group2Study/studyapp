@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20160522001832) do
   add_index "group_tags", ["tag_id"], name: "index_group_tags_on_tag_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "private"
@@ -54,11 +54,12 @@ ActiveRecord::Schema.define(version: 20160522001832) do
   add_index "meeting_tags", ["tag_id"], name: "index_meeting_tags_on_tag_id", using: :btree
 
   create_table "meetings", force: :cascade do |t|
-    t.datetime "start_datetime"
-    t.datetime "end_datetime"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.date     "date"
     t.integer  "group_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "meetings", ["group_id"], name: "index_meetings_on_group_id", using: :btree
@@ -71,7 +72,7 @@ ActiveRecord::Schema.define(version: 20160522001832) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tag_type_id"
@@ -82,16 +83,16 @@ ActiveRecord::Schema.define(version: 20160522001832) do
   add_index "tags", ["tag_type_id"], name: "index_tags_on_tag_type_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -99,5 +100,4 @@ ActiveRecord::Schema.define(version: 20160522001832) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "meetings", "groups"
 end

@@ -50,12 +50,25 @@ var search = new Vue({
     errors: {}
   },
   ready: function() {
-    alert('ready');
+    alert('ready-search');
   },
   methods: {
     searchTags: function () {
       alert('searchTags');
+      
 
+      $.ajax({
+        method: 'GET',
+        url: '/groups',
+        success: function(res) {
+          $('#content').html(res);
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
+/*
       var that = this;
       $.ajax({
         method: 'POST',
@@ -72,7 +85,7 @@ var search = new Vue({
           that.errors = res.responseJSON.errors
         }
       })
-      
+*/
     }
   }
 });
