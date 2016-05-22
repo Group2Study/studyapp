@@ -17,7 +17,7 @@ var groups = new Vue({
       method: 'POST',
       url: '/groups/list.json',
       success: function(res) {
-        alert(res);
+        //alert(res);
         that.errors = {}
         //that.groups = []
         //that.groups.push(res);
