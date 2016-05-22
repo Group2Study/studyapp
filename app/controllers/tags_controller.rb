@@ -12,8 +12,15 @@ class TagsController < ApplicationController
   end
 
   def search
-    puts "TagsController::search"
-    puts @params
+    puts "TagsController::search# P: #{self.params[:search]}"
+
+    @tags = Tag.find_by("lower(name) like '%#{self.params[:search]}%'")
+    #puts @params[:search]
+
+    respond_to do |format|
+      #format.html
+      format.json { render :json => @tags }
+    end
   end
 
 end

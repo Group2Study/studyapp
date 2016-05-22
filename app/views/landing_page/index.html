@@ -2,46 +2,44 @@
 
 <h1>Group2Study</h1>
 
-<ul>
-  <div id="search">
+<div id="landing_page">
+
+  <ul>
+    
     <li>Busca 
-        <input type="text" id="search_text">
+        <input type="text" v-model="search_input">
         <button v-on:click="searchTags">Buscar</button>
     </li>
+  </ul>
 
-
-    <ul>
-      <li v-for="result in search_results">
-        {{ result }}
-      </li>
-    </ul>
-    
-  </div>
-
-  
-  <% if user_signed_in? %>
-    <li>USUARIO LOGADO
-    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+  <ul>
+    <li v-for="result in search_results">
+      {{ result }}
     </li>
-  <% else %>
-    <li>
-    <%= link_to('Login', new_user_session_path)  %>
-    </li>
-  <% end %>
-</ul>
-
-
-<div id="tags">
+  </ul>
+      
+   
   <ul>
     <li v-for="tag in tags">
       {{ tag.name }}
     </li>
   </ul>
+
+  <ul>
+    <% if user_signed_in? %>
+      <li>USUARIO LOGADO
+      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+      </li>
+    <% else %>
+      <li>
+      <%= link_to('Login', new_user_session_path)  %>
+      </li>
+    <% end %>
+  </ul>
+
+  <a href="groups">Meus Grupos</a>
+
 </div>
-
-
-<a href="groups">Meus Grupos</a>
-
 
 <%= javascript_include_tag 'landing_page' %>
 

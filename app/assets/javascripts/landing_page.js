@@ -1,13 +1,16 @@
-var tags = new Vue({
-  el: '#tags',
+var landing_page = new Vue({
+  el: '#landing_page',
   data: {
     tags: [],
     tag: {
       name: ''
     },
+    search_results: [],
+    search_input: '',
     errors: {}
   },
   ready: function() {
+    /*
     var that;
     that = this;
     $.ajax({
@@ -16,10 +19,32 @@ var tags = new Vue({
         that.tags = res;
       }
     });
+  */
   },
   methods: {
     searchTags: function () {
-      alert($('search_text').html());
+      
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: this.search_input,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          //this.search_results = {}
+          //this.search_results.push(res);
+          that.tags = []
+          that.tags.push(res);
+          //that.tags = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
       /*
       var that = this;
       $.ajax({
@@ -43,50 +68,3 @@ var tags = new Vue({
 });
 
 
-var search = new Vue({
-  el: '#search',
-  data: {
-    search_results: [],
-    errors: {}
-  },
-  ready: function() {
-    //alert('ready-search');
-  },
-  methods: {
-    searchTags: function () {
-      //alert('searchTags');
-      
-/*
-      $.ajax({
-        method: 'GET',
-        url: '/groups',
-        success: function(res) {
-          $('#content').html(res);
-        },
-        error: function(res) {
-          that.errors = res.responseJSON.errors
-        }
-      })
-*/
-
-/*
-      var that = this;
-      $.ajax({
-        method: 'POST',
-        data: {
-          search: value,
-        },
-        url: '/tags/search.json',
-        success: function(res) {
-          that.errors = {}
-          that.search_results = {}
-          that.search_results.push(res);
-        },
-        error: function(res) {
-          that.errors = res.responseJSON.errors
-        }
-      })
-*/
-    }
-  }
-});
