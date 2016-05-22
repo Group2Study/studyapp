@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     post '/groups/list' => :list
     post '/groups/create' => :create
     post '/groups/update' => :update
+    post '/groups/associate_institute' => :associate_institute
+    post '/groups/institutes' => :institutes
+    post '/groups/themes' => :themes
+
   end
 
   controller 'group_meeting' do

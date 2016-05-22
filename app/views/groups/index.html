@@ -1,4 +1,4 @@
-<h1>Meus Grupos</h1>
+<h1>Grupos de Estudo</h1>
 
 <div id="groups">
 
@@ -27,28 +27,31 @@
     </div>
 
 
+
+
     <div v-show="group.id">
+
+    
       Instituicoes:
       <ul>
-        <li v-for="institute in institutes">
-          {{ institutes.name }}
+        <li v-for="institute in current_institutes">
+          {{ institute.name }}
         </li>
       </ul>
-    </div>
-  
+    
 
       <div v-show="adding_institute">
 
         <div v-show="not_creating_insitute">
           Associar instituicao: <input type="text" v-model="institute_input" v-on:keyup="searchInstitue"></input>
 
-          {{ institutes }}
-          <select>
+          <select v-model="selected_institute" data-enumeration="true">
             <option v-for="institute in institutes" value="{{ institute.id }}">
               {{ institute.name }}
             </option>
           </select>
 
+          <a v-on:click="addInstitue" class="btn btn-primary btn-xl">ADICIONAR</a>
           <a v-on:click="hideAddInstitue" class="btn btn-primary btn-xl">CANCELAR</a>
         </div>
 
@@ -64,6 +67,9 @@
 
       </div>
       <a v-show="not_adding_institute" v-on:click="showAddInstitue" class="btn btn-primary btn-xl">ADICIONAR INSTITUICAO</a>
+
+      </div>
+  
 
     
 
@@ -91,6 +97,7 @@ var groups = new Vue({
   data: {
     groups: [],
     institutes: [],
+    selected_institute: '',
     group: {
       id: '',
       name: '',
@@ -98,6 +105,7 @@ var groups = new Vue({
       administrable: false,
       institutes: []
     },
+    current_institutes: [],
     errors: {},
     institute_input: '',
     institute_create_input: '',
@@ -208,6 +216,34 @@ var groups = new Vue({
     {
       alert('createInstitue');
     },
+    addInstitue: function()
+    {
+      alert('addInstitue: ' + this.selected_institute);
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          id: this.group.id,
+          tag_id: this.selected_institute,
+        },
+        url: '/groups/associate_institute.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          //alert(res);
+          if (res)
+          {
+            alert(res);
+            //that.institutes = res;
+          }
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
+    },
     searchInstitue: function()
     {
       if (this.institute_input.length > 2)
@@ -225,8 +261,8 @@ var groups = new Vue({
             //alert(res);
             if (res)
             {
-              alert(res);
-              this.institutes = res;
+              //alert(res);
+              that.institutes = res;
             }
           },
           error: function(res) {
@@ -238,7 +274,12 @@ var groups = new Vue({
     showGroup: function (index) {
       //alert('GN: ' + index + ' groups ' + this.groups[index].name + ' ID ' + this.groups[index].id );
       this.show_group_form = false;
-      this.group = this.groups[index];
+      //this.group = this.groups[index];
+
+      this.setCurrentGroup(this.groups[index].id);
+
+      //precisa recuperar 
+
       // var that = this;
       // $.ajax({
       //   method: 'POST',
@@ -277,6 +318,25 @@ var groups = new Vue({
           //that.group = {}
           //alert(res);
           that.group = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
+      $.ajax({
+        method: 'POST',
+        data: {
+           id: group_id,
+         },
+        url: '/groups/institutes.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          //alert(res[0].name);
+          //that.group.institutes = res;
+          that.current_institutes = [];
+          that.current_institutes = res;
         },
         error: function(res) {
           that.errors = res.responseJSON.errors

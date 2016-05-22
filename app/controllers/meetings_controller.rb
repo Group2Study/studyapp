@@ -5,6 +5,7 @@ class MeetingsController < ApplicationController
 
     @group_id = params[:id]
 
+    @group = Group.find(@group_id)
 
   end
 

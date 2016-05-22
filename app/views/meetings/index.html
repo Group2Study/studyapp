@@ -1,71 +1,84 @@
-<h3>Grupo de Estudo</h3>
+<h3>Grupo de Estudo  - <%= @group.name %></h3>
 
 <div id="meetings" class="container">
 
   <div class="row">
 
-    <div class="col-md-3">
+    <div class="col-xs-6">
 
-    </div>
-  <div class="col-md-6">
-  <a v-on:click="showCreateMeeting" class="btn btn-primary btn-xl">Agendar</a>
-  <div v-show="add_meeting">
-   <label for="inicio">Inicio:</label> <input id="inicio" type="text" v-model="meeting.initial_date" class="datepicker" data-date-format="dd/mm/yyyy" data-provide="datepicker"><br>
-    <label for="fim">Fim:</label> <input id="fim" type="text" v-model="meeting.end_date" class="datepicker" data-date-format="dd/mm/yyyy" data-provide="datepicker"><br>
-    <label for="horario_inicio">Horario inicio:</label> <input id="horario_inicio" type="text" v-model="meeting.start_time" class="bootstrap-timepicker-component"><br>
-    <label for="horario_fim">Horario fim:</label> <input id="horario_fim" type="text" v-model="meeting.end_time"><br>
-    <label for="">Periodicidade:</label>
-    <div v-show="add_meeting_week_day">
-      <label class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[0]"> Domingo
-      </label>
-      <label  class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[1]"> Segunda
-      </label>
-      <label  class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[2]"> Terca
-      </label>
-      <label  class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[3]"> Quarta
-      </label>
-      <label  class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[4]"> Quinta
-      </label>
-      <label  class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[5]"> Sexta
-      </label>
-      <label  class="checkbox-inline">
-        <input type="checkbox" v-model="meeting.week_days[6]"> Sabado
-      </label>
-    </div>
-
-    <input type="text" v-model="meeting.multiplier" v-show="add_meeting_periodicity">
-
-    -
-    <select v-model="meeting.periodicity" v-on:change="periodicityChange" class="form-control">
-      <option value="dia">dia</option>
-      <option value="dia_semana">dia semana</option>
-      <option value="semana">semana</option>
-      <option value="mes">mes</option>
-      <option value="ano">ano</option>
-    </select>
-
-    <a v-on:click="createNewMeeting" class="btn btn-primary btn-xl">Criar</a>
-    <a v-on:click="hideCreateMeeting" class="btn btn-primary btn-xl">Cancela</a>
-  </div>
-  <div class="col-md-3"></div>
-
-    </div>
-
-
-  </div>
-
-  <ul>
+      <ul>
     <li v-for="meeting in meetings" >
       D: {{ meeting.date }}
-      <a href="/group_meeting/{{ meeting.id }}">==></a>
+      <a href="/group_meeting/{{ meeting.id }}"> <i class="fa fa-share" aria-hidden="true"></i> </a>
     </li>
   </ul>
+
+    </div>
+
+    <div class="col-xs-6">
+
+
+       
+      <div class="col-xs-8">
+      <a v-show="not_add_meeting" v-on:click="showCreateMeeting" class="btn btn-primary btn-xl">Agendar</a>
+      <div v-show="add_meeting">
+       <label for="inicio">Inicio:</label> <input id="inicio" type="text" v-model="meeting.initial_date" class="datepicker" data-date-format="dd/mm/yyyy" data-provide="datepicker"><br>
+        <label for="fim">Fim:</label> <input id="fim" type="text" v-model="meeting.end_date" class="datepicker" data-date-format="dd/mm/yyyy" data-provide="datepicker"><br>
+        <label for="horario_inicio">Horario inicio:</label> <input id="horario_inicio" type="text" v-model="meeting.start_time" class="bootstrap-timepicker-component"><br>
+        <label for="horario_fim">Horario fim:</label> <input id="horario_fim" type="text" v-model="meeting.end_time"><br>
+        <label for="">Periodicidade:</label>
+        <div v-show="add_meeting_week_day">
+          
+            <input type="checkbox" v-model="meeting.week_days[0]"> Dom
+          
+          
+            <input type="checkbox" v-model="meeting.week_days[1]"> Seg
+          
+          
+            <input type="checkbox" v-model="meeting.week_days[2]"> Ter
+          
+          
+            <input type="checkbox" v-model="meeting.week_days[3]"> Qua
+          
+          
+            <input type="checkbox" v-model="meeting.week_days[4]"> Qui
+          
+          
+            <input type="checkbox" v-model="meeting.week_days[5]"> Sex
+          
+          
+            <input type="checkbox" v-model="meeting.week_days[6]"> Sab
+          
+        </div>
+
+
+        <input type="text" v-model="meeting.multiplier" v-show="add_meeting_periodicity">
+
+        -
+        <select v-model="meeting.periodicity" v-on:change="periodicityChange" class="form-control">
+          <option value="dia">Dia</option>
+          <option value="dia_semana">Dia da semana</option>
+          <option value="semana">Semana</option>
+          <option value="mes">Mes</option>
+          <option value="ano">Ano</option>
+        </select>
+
+        <a v-on:click="createNewMeeting" class="btn btn-primary btn-xl">Criar</a>
+        <a v-on:click="hideCreateMeeting" class="btn btn-primary btn-xl">Cancelar</a>
+      </div>
+
+
+      
+
+    </div>
+
+    </div>
+
+
+
+  </div>
+
+  
 
   <!--
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -108,6 +121,7 @@ var meetings = new Vue({
       group_id: ''
     },
     add_meeting: false,
+    not_add_meeting: true,
     add_meeting_week_day: false,
     add_meeting_periodicity: true
   },
@@ -134,9 +148,11 @@ var meetings = new Vue({
     },
     showCreateMeeting: function () {
       this.add_meeting = true;
+      this.not_add_meeting = false;
     },
     hideCreateMeeting: function () {
       this.add_meeting = false;
+      this.not_add_meeting = true;
     },
     createNewMeeting: function () {
       var that = this;
