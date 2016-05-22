@@ -8,6 +8,7 @@ class GroupsController < ApplicationController
 
   def show
     @group_id = params[:id]
+    puts "show# ID: #{@group_id}"
     respond_to do |format|
       #format.html
       format.json do

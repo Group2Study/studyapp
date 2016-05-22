@@ -93,7 +93,7 @@ var groups = new Vue({
       $.ajax({
         method: 'POST',
         data: {
-           data: group_id,
+           id: group_id,
          },
         url: '/groups/show.json',
         success: function(res) {
