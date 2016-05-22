@@ -19,3 +19,13 @@
 </div>
 
 <%= javascript_include_tag 'groups' %>
+
+
+<script>
+
+<% if @group_id %>
+groups.setCurrentGroup(<%= @group_id %>);
+<% end %>
+
+</script>
+

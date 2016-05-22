@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   controller 'groups' do
     get '/groups' => :index
     get '/groups/:id' => :index
+    post '/groups/show' => :show
     post '/groups/new' => :new
     post '/groups/list' => :list
     post '/groups/create' => :create
