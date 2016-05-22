@@ -19,3 +19,5 @@ Rails.application.config.assets.precompile += %w( groups.js )
 
 Rails.application.config.assets.precompile += %w( group_meeting.js )
 
+Rails.application.config.assets.precompile += %w( meetings.js )
+

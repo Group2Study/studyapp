@@ -21,6 +21,11 @@ Rails.application.routes.draw do
     post '/group_meeting/send_message' => :send_message
   end
 
+  controller 'meetings' do
+    get '/meetings/:id' => :index
+    post '/meetings/generate/' => :generate
+  end
+
 
   #facilita acesso a resourses
   # resources :tags

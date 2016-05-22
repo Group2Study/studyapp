@@ -1,0 +1,63 @@
+MEETINGS
+
+<div id="meetings">
+  <button v-on:click="showCreateMeeting">NOVO ENCONTRO</button>
+  <div v-show="add_meeting">
+    Inicio: <input type="text" v-model="meeting.initial_date" class="datepicker"><br>
+    Fim: <input type="text" v-model="meeting.end_date" class="datepicker"><br>
+    Horario inicio: <input type="text" v-model="meeting.start_time" class="timepicker"><br>
+    Horario fim: <input type="text" v-model="meeting.end_time"><br>
+    Periodicidade:
+    <span v-show="add_meeting_week_day">
+      <input type="checkbox" v-model="meeting.week_days[0]">Domingo</input>
+      <input type="checkbox" v-model="meeting.week_days[1]">Segunda</input>
+      <input type="checkbox" v-model="meeting.week_days[2]">Terca</input>
+      <input type="checkbox" v-model="meeting.week_days[3]">Quarta</input>
+      <input type="checkbox" v-model="meeting.week_days[4]">Quinta</input>
+      <input type="checkbox" v-model="meeting.week_days[5]">Sexta</input>
+      <input type="checkbox" v-model="meeting.week_days[6]">Sabado</input>
+    </span>
+    <input type="text" v-model="meeting.multiplier" v-show="add_meeting_periodicity">
+
+    -
+    <select v-model="meeting.periodicity" v-on:change="periodicityChange">
+      <option value="dia">dia</option>
+      <option value="dia_semana">dia semana</option>
+      <option value="semana">semana</option>
+      <option value="mes">mes</option>
+      <option value="ano">ano</option>
+    </select>
+    
+    <button v-on:click="createNewMeeting">Criar</button>
+    <button v-on:click="hideCreateMeeting">Cancela</button>
+  </div>
+
+  <ul>
+    <li v-for="meeting in meetings" >
+      D: {{ meeting.date }}
+    </li>
+  </ul>
+
+  <!--
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+  <script>
+    $(function() {
+      // /$( ".timepicker" ).timepicker();
+      $( ".datepicker" ).datepicker({
+          dateFormat: 'dd/mm/yy',
+          dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+          dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+          dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+          monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+          monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+          nextText: 'Próximo',
+          prevText: 'Anterior'
+      });
+    });
+  </script>
+-->
+</div>
+
+<%= javascript_include_tag 'meetings' %>
