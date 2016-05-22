@@ -38,10 +38,32 @@
   
 
       <div v-show="adding_institute">
-        <input type="text"></input>
-        <a v-on:click="hideAddInstitue" class="btn btn-primary btn-xl">CANCELAR</a>
+
+        <div v-show="not_creating_insitute">
+          Associar instituicao: <input type="text" v-model="institute_input" v-on:keyup="searchInstitue"></input>
+
+          {{ institutes }}
+          <select>
+            <option v-for="institute in institutes" value="{{ institute.id }}">
+              {{ institute.name }}
+            </option>
+          </select>
+
+          <a v-on:click="hideAddInstitue" class="btn btn-primary btn-xl">CANCELAR</a>
+        </div>
+
+
+        <div v-show="creating_insitute">
+          Nova instituicao: <input type="text" v-model="institute_create_input" v-on:change="searchInstitue"></input>
+          <a v-show="creating_insitute" v-on:click="createInstitue" class="btn btn-primary btn-xl">CRIAR</a>  
+          <a v-show="creating_insitute" v-on:click="hideCreateInstitue" class="btn btn-primary btn-xl">CANCELAR</a>  
+        </div>
+
+        <a v-show="not_creating_insitute" v-on:click="showCreateInstitue" class="btn btn-primary btn-xl">CRIAR INSTITUICAO</a>
+      
+
       </div>
-      <a v-show="not adding_institute" v-on:click="showAddInstitue" class="btn btn-primary btn-xl">ADICIONAR INSTITUICAO</a>
+      <a v-show="not_adding_institute" v-on:click="showAddInstitue" class="btn btn-primary btn-xl">ADICIONAR INSTITUICAO</a>
 
     
 
@@ -68,6 +90,7 @@ var groups = new Vue({
   el: '#groups',
   data: {
     groups: [],
+    institutes: [],
     group: {
       id: '',
       name: '',
@@ -76,11 +99,17 @@ var groups = new Vue({
       institutes: []
     },
     errors: {},
+    institute_input: '',
+    institute_create_input: '',
 
     show_group_form: false,
 
     adding_group: false,
-    adding_institute: false
+    adding_institute: false,
+    not_adding_institute: true,
+
+    creating_insitute: false,
+    not_creating_insitute: true,
   },
   ready: function() {
     //alert('ready groups');
@@ -153,14 +182,58 @@ var groups = new Vue({
     showAddInstitue: function()
     {
       this.adding_institute = true;
+      this.not_adding_institute = false;
     },
     hideAddInstitue: function()
     {
       this.adding_institute = false;
+      this.not_adding_institute = true;
+      this.institute_input = '';
     },
     editGroup: function()
     {
       this.show_group_form = true;
+    },
+    hideCreateInstitue: function()
+    {
+      this.creating_insitute = false;
+      this.not_creating_insitute = true;
+    },
+    showCreateInstitue: function()
+    {
+      this.creating_insitute = true;
+      this.not_creating_insitute = false;
+    },
+    createInstitue: function()
+    {
+      alert('createInstitue');
+    },
+    searchInstitue: function()
+    {
+      if (this.institute_input.length > 2)
+      {
+        var that = this;
+        $.ajax({
+          method: 'POST',
+          data: {
+            input: this.institute_input,
+          },
+          url: '/tags/list_institutes.json',
+          success: function(res) {
+            that.errors = {}
+            //that.group = {}
+            //alert(res);
+            if (res)
+            {
+              alert(res);
+              this.institutes = res;
+            }
+          },
+          error: function(res) {
+            that.errors = res.responseJSON.errors
+          }
+        })
+      }
     },
     showGroup: function (index) {
       //alert('GN: ' + index + ' groups ' + this.groups[index].name + ' ID ' + this.groups[index].id );

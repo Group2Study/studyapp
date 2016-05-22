@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   controller 'tags' do
     get '/tags' => :index
     post '/tags/search' => :search
+    post '/tags/list_institutes' => :list_institutes
+    post '/tags/list_themes' => :list_themes
   end
 
   controller 'groups' do

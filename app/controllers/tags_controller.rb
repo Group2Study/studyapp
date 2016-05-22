@@ -42,14 +42,19 @@ class TagsController < ApplicationController
   end
 
   def list_institutes
-    @institutes = Tag.institutes
+
+    if params[:input]
+      @institutes = Tag.institutes.where("lower(name) like '%#{params[:input]}%'")
+    else
+      @institutes = Tag.institutes
+    end
     respond_to do |format|
       format.html
       format.json { render :json => @institutes }
     end
   end
 
-  def list_institutes
+  def list_themes
     @themes = Tag.themes
     respond_to do |format|
       format.html

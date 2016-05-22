@@ -12,7 +12,7 @@ class GroupMeetingController < ApplicationController
   end
 
   def send_message
-    puts "GroupMeetingController:send_message MES: #{params[:message]} ID:  #{params[:id]}"
+    puts "GroupMeetingController: MES: #{params[:message]} ID:  #{params[:id]}"
 
     puts "GroupMeetingController:send_message USER: #{current_user}"
 
