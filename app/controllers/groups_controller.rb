@@ -4,6 +4,10 @@ class GroupsController < ApplicationController
 
   end
 
+  def new
+    
+  end
+
   def show
     @group_id = params[:id]
     puts "show# ID: #{@group_id}"

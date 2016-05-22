@@ -11,8 +11,8 @@
     <div class="col-xs-6">
 
   
-      <ul>
-        <li v-for="meeting in meetings" tack-by="$index">
+      <ul class="list-group">
+        <li v-for="meeting in meetings" tack-by="$index" class="list-group-item list_text">
           {{ meeting.date }} - Aula {{ $index + 1 }} - {{ meeting.tags }}
           <a href="/group_meeting/{{ meeting.id }}"> <i class="fa fa-share" aria-hidden="true"></i> </a>
 

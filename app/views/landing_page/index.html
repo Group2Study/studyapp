@@ -9,18 +9,14 @@
         <br>
         <a v-on:click="searchGroups" class="btn btn-primary btn-xl" style="margin: 25px 0 0 0;" >Encontre seu grupo</a>
 
-  <ul class="list-group">
-    <li class="list-group-item" v-for="result in search_results">
-      <a href="groups/{{ result.id }}">{{ result.name }}</a>
-    </li>
-  </ul>
-
-
-  <ul>
-    <li v-for="tag in tags">
-      {{ tag.name }}
-    </li>
-  </ul>
+  <div v-show="search_results">
+    <ul class="list-group">
+      <li class="list-group-item" v-for="result in search_results">
+        <a href="groups/{{ result.id }}">{{ result.name }}</a>
+      </li>
+    </ul>
+    <a href="groups" class="btn btn-default">Explorar</a>
+  </div>
 
 </div>
 

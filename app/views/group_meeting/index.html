@@ -2,48 +2,52 @@
 
 <div id="group_meeting">
 
+<p>
   <span v-for="theme in current_themes">
     {{ theme.name }}
   </span>
-
+</p>
   
 
   MENSAGENS:
 
-  <ul>
-    <li v-for="message in messages">
+  <ul class="list-group">
+    <li v-for="message in messages" class="list-group-item list_text_left">
       {{ message.text }}
     </li>
   </ul>
 
 
-  <input type="text" v-model="message_input">
+  <input type="text" v-model="message_input" class="message_input">
   <a v-on:click="sendMessage" class="btn btn-primary btn-xl">ENVIAR</a>
 
   <br>
   <a href="/meetings/<%= @group.id %>" class="btn btn-primary btn-xl">VOLTAR</a><br>
 
+  <br>
+
   <div v-show="not_show_association">
     <a class="btn btn-primary" v-on:click="showAssociationForm">Associar tema</a>
   </div>
 
-  <div v-show="show_association">
+
+  <div v-show="show_association" >
 
 
-    <div v-show="not_show_create_theme">
-    <input type="text" v-model="theme_input" v-on:keyup="searchThemes">
+    <div v-show="not_show_create_theme" class="div_inline">
+      <input type="text" v-model="theme_input" v-on:keyup="searchThemes">
 
-    <select v-model='current_selected_theme' class="form-control" style="width: 200px; display: inline">
-      <option v-for="theme in themes" data-enumeration="true" value="{{ theme.id}}" >
-        {{ theme.name }}
-      </option>
-    </select>
-    <a class="btn btn-primary" v-on:click="associateTheme">Associar</a>
+      <select v-model='current_selected_theme' class="form-control" style="width: 200px; display: inline">
+        <option v-for="theme in themes" data-enumeration="true" value="{{ theme.id}}" >
+          {{ theme.name }}
+        </option>
+      </select>
+      <a class="btn btn-primary" v-on:click="associateTheme">Associar</a>
 
 
-    <a class="btn btn-primary" v-on:click="showCreateTheme" >Criar novo tema</a>
+      <a class="btn btn-primary" v-on:click="showCreateTheme" >Criar novo tema</a>
 
-  </div>
+    </div>
 
     <div v-show="show_create_theme">
         <input type="text" v-model="theme_create_input"></input>
@@ -55,6 +59,8 @@
 
 
     <a class="btn btn-primary"v-on:click="hideAssociationForm" v-show="not_show_create_theme">Cancelar</a>
+
+
   </div>
 
 </div>
@@ -82,8 +88,9 @@ var group_meeting = new Vue({
 
   },
   ready: function() {
-    this.updateMessages();
+    
     this.retrieveThemes();
+    this.updateMessages();
     //alert('ready group_meeting');
     //carregar as mensages que ja tem no grupo?
       //como receber o id?
@@ -120,8 +127,7 @@ var group_meeting = new Vue({
       //alert('GN: ' + this.group.name);
 
     },
-    retrieveThemes: function()
-    {
+    retrieveThemes: function() {
 
       var that = this;
       $.ajax({
@@ -137,7 +143,10 @@ var group_meeting = new Vue({
           //em geral nao vai retornar nada!
           
           if (res)
+          {
+            //alert('retrieveThemes# ' + res);
             that.current_themes = res;
+          }
 /*
           if (res)
           {
@@ -235,7 +244,7 @@ var group_meeting = new Vue({
 
           if (res)
           {
-            alert(res);
+            //alert(res);
             //that.institutes = res;
           }
         },

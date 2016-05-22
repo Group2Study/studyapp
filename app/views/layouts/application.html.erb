@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>VuejsRailsExample</title>
+  <title>EstudaJunto</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
@@ -18,15 +18,13 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand page-scroll" href="#page-top">Groups2Study</a>
+              <a class="navbar-brand page-scroll" href="/">EstudaJunto</a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
-                  <li>
-                      <a class="page-scroll" href="#about">Sobre</a>
-                  </li>
+                  
                   <li>
                     <% if user_signed_in? %>
                       <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
@@ -36,6 +34,9 @@
                   </li>
                   <li>
                       <a class="page-scroll" href="/groups">Grupos</a>
+                  </li>
+                  <li>
+                      <a class="page-scroll" href="#about">Sobre</a>
                   </li>
                   <li>
                       <a class="page-scroll" href="#contact">Contato</a>
