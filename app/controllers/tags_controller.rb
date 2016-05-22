@@ -18,7 +18,7 @@ class TagsController < ApplicationController
     tags_ids = Tag.all.where("lower(name) like '%#{self.params[:search]}%'").pluck(:id)
 
     #buscar os grupos que tem as tags
-    groups_tags = GroupTags.all.where("tag_id in (#{tags_ids.join(',')})")
+    groups_tags = GroupTag.all.where("tag_id in (#{tags_ids.join(',')})")
 
     groups_id = groups_tags.pluck(:group_id)
 

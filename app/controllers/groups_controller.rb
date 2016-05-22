@@ -1,5 +1,21 @@
 class GroupsController < ApplicationController
   def index
+    @group_id = params[:id]
+
+    
+
+  end
+
+  def show
+    respond_to do |format|
+      #format.html
+      format.json do
+        if @group_id
+          @group = Group.find(@group_id)
+        end
+        render :json => @group 
+      end
+    end
   end
 
   def create

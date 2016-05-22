@@ -60,7 +60,7 @@ var groups = new Vue({
       this.group.name = '';
     },
     editGroup: function (index) {
-      alert('GN: ' + index + ' groups ' + this.groups[index].name + ' ID ' + this.groups[index].id );
+      //alert('GN: ' + index + ' groups ' + this.groups[index].name + ' ID ' + this.groups[index].id );
       this.adding_group = true;
       this.group = this.groups[index];
       // var that = this;
@@ -84,5 +84,30 @@ var groups = new Vue({
     // clearForm: function (index) {
     //   this.group = []
     // },
+
+    setCurrentGroup: function(group_id) {
+      this.group.id = group_id;
+      this.group.name = 'TESTE';
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+           data: group_id,
+         },
+        url: '/groups/show.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          alert(res);
+          that.group = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
+      
+    },
   }
 });
