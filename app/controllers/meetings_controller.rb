@@ -83,6 +83,36 @@ class MeetingsController < ApplicationController
 
   end
 
+
+  def themes
+    meeting_id = params[:id]
+    tag_type_id = TagType.find_by("key = 'theme'").id
+
+    tags_id = Tag.all().where("tag_type_id = #{tag_type_id}").pluck(:id)
+
+    puts "themes# T: #@tags_id}"
+
+    unless tags_id.empty?
+      group_tags_id = MeetingTag.all().where("tag_id in (#{tags_id.join(',')}) and meeting_id = #{meeting_id}").pluck(:tag_id)
+
+      puts "themes# G: #{group_tags_id}"
+
+      unless group_tags_id.empty?
+        @themes = Tag.all().where("id in (#{group_tags_id.join(',')})")
+
+        puts "themes# I: #{@themes}"
+      end
+    end
+
+    #group = Group.find(group_id);
+    #@institutes = group.tags.join("tag_types").where("key = 'institute'")
+    respond_to do |format|
+      #format.html
+      format.json { render :json => @themes }
+    end
+
+  end
+
   def generate
 
     puts "GroupMeetingController:generate# GROUP: #{params[:group_id]}"

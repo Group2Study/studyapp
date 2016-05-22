@@ -13,7 +13,7 @@
   
       <ul>
         <li v-for="meeting in meetings" tack-by="$index">
-          {{ meeting.date }} - Aula {{ $index + 1 }} - {{ meeting.tags.first }}
+          {{ meeting.date }} - Aula {{ $index + 1 }} - {{ meeting.tags }}
           <a href="/group_meeting/{{ meeting.id }}"> <i class="fa fa-share" aria-hidden="true"></i> </a>
 
           

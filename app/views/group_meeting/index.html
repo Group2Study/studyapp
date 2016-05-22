@@ -2,6 +2,10 @@
 
 <div id="group_meeting">
 
+  <span v-for="theme in current_themes">
+    {{ theme.name }}
+  </span>
+
   
 
   MENSAGENS:
@@ -67,6 +71,7 @@ var group_meeting = new Vue({
     message_input: '',
     show_association: false,
     not_show_association: true,
+    current_themes: [],
     themes: [],
     theme_input: '',
     show_create_theme: false,
@@ -78,6 +83,7 @@ var group_meeting = new Vue({
   },
   ready: function() {
     this.updateMessages();
+    this.retrieveThemes();
     //alert('ready group_meeting');
     //carregar as mensages que ja tem no grupo?
       //como receber o id?
@@ -112,6 +118,39 @@ var group_meeting = new Vue({
       })
 
       //alert('GN: ' + this.group.name);
+
+    },
+    retrieveThemes: function()
+    {
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          id: this.meeting_id
+        },
+        url: '/meetings/themes.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          //alert(res);
+          //em geral nao vai retornar nada!
+          
+          if (res)
+            that.current_themes = res;
+/*
+          if (res)
+          {
+            alert(res);
+            //that.institutes = res;
+          }
+          */
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
 
     },
     showAssociationForm: function() {
