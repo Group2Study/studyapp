@@ -48,15 +48,18 @@ class GroupsController < ApplicationController
   end
 
   def list
-
     @groups = Group.all
     respond_to do |format|
       #format.html
       format.json { render :json => @groups }
     end
-
   end
 
-
-  
+  def related_tags
+    @tags = Group.tags
+    respond_to do |format|
+      #format.html
+      format.json { render :json => @tags }
+    end
+  end
 end
