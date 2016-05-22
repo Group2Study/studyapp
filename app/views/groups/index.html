@@ -2,39 +2,58 @@
 
 <div id="groups">
 
+  
+  <h2>{{ group.name }}</h2>
+
+
   <div class="col-xs-3">
 
     <ol>
       <li v-for="group in groups" track-by="$index">
-         <a v-on:click="editGroup($index)">{{ group.name }}</a>
+         <a v-on:click="showGroup($index)">{{ group.name }}</a>
       </li>
     </ol>
   </div>
   <div class="col-xs-9">
 
-    <div v-show="adding_group">
+    <div v-show="show_group_form">
+
       Nome: <input type="text" v-model="group.name">
       Privado: <input type="checkbox" v-model="group.private">
       Administracao Restrita:<input type="checkbox" v-model="group.administrable">
       <a v-on:click="createGroup" class="btn btn-primary btn-xl">SALVAR</a>
       <a v-on:click="hideGroupForm" class="btn btn-primary btn-xl">CANCELAR</a>
     
-      <br>
+    </div>
+
+
+    <div v-show="group.id">
       Instituicoes:
       <ul>
-        <li v-for="">
+        <li v-for="institute in institutes">
+          {{ institutes.name }}
         </li>
       </ul>
+    </div>
+  
 
+      <div v-show="adding_institute">
+        <input type="text"></input>
+        <a v-on:click="hideAddInstitue" class="btn btn-primary btn-xl">CANCELAR</a>
+      </div>
+      <a v-show="not adding_institute" v-on:click="showAddInstitue" class="btn btn-primary btn-xl">ADICIONAR INSTITUICAO</a>
+
+    
+
+    <div v-show="group.id">
+      <a v-on:click="editGroup" class="btn btn-primary btn-xl">EDITAR</a>
     </div>
 
     <a v-on:click="addGroup" class="btn btn-primary btn-xl">NOVO GRUPO</a>
-    
-
+  
   </div>
 
-  <br>
-
+  
   <div v-show="group.id">
     <a href="/meetings/{{ group.id }}" class="btn btn-primary btn-xl">AGENDA</a>
   </div>
@@ -53,10 +72,15 @@ var groups = new Vue({
       id: '',
       name: '',
       private: false,
-      administrable: false
+      administrable: false,
+      institutes: []
     },
     errors: {},
-    adding_group: false
+
+    show_group_form: false,
+
+    adding_group: false,
+    adding_institute: false
   },
   ready: function() {
     //alert('ready groups');
@@ -91,8 +115,11 @@ var groups = new Vue({
           that.errors = {}
           //that.group = {}
           if (res)
+          {
             that.groups.push(res);
-          that.adding_group = false;
+            that.group = res;
+          }
+          that.show_group_form = false;
         },
         error: function(res) {
           that.errors = res.responseJSON.errors
@@ -102,17 +129,42 @@ var groups = new Vue({
     },
     addGroup: function()
     {
-      this.adding_group = true;
-      this.group.id = '';
+      this.cleanForm();
+      this.show_group_form = true;
+    },
+    cleanForm: function()
+    {
+      this.group = {
+        id: '',
+        name: '',
+        private: false,
+        administrable: false,
+        institutes: []
+      };
+      /*this.group.id = '';
       this.group.name = '';
+      this.group.private = false;
+      this.group.administrable = false;*/
     },
     hideGroupForm: function()
     {
-      this.adding_group = false;
+      this.show_group_form = false;
     },
-    editGroup: function (index) {
+    showAddInstitue: function()
+    {
+      this.adding_institute = true;
+    },
+    hideAddInstitue: function()
+    {
+      this.adding_institute = false;
+    },
+    editGroup: function()
+    {
+      this.show_group_form = true;
+    },
+    showGroup: function (index) {
       //alert('GN: ' + index + ' groups ' + this.groups[index].name + ' ID ' + this.groups[index].id );
-      this.adding_group = true;
+      this.show_group_form = false;
       this.group = this.groups[index];
       // var that = this;
       // $.ajax({

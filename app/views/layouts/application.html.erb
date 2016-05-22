@@ -25,16 +25,20 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
                   <li>
-                      <a class="page-scroll" href="#about">About</a>
+                      <a class="page-scroll" href="#about">Sobre</a>
                   </li>
                   <li>
-                      <a class="page-scroll" href="#services">Groups</a>
+                    <% if user_signed_in? %>
+                      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+                    <% else %>
+                      <a class="page-scroll" href="/users/sign_in">Login</a>
+                    <% end %>
                   </li>
                   <li>
-                      <a class="page-scroll" href="#portfolio">Groups</a>
+                      <a class="page-scroll" href="/groups">Grupos</a>
                   </li>
                   <li>
-                      <a class="page-scroll" href="#contact">Contact</a>
+                      <a class="page-scroll" href="#contact">Contato</a>
                   </li>
               </ul>
           </div>
