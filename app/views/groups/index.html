@@ -1,7 +1,15 @@
 <h1>GROUPS#index</h1>
 
 <div id="groups">
-<button v-on:click="executeMethod">TESTE</button>
+
+  <ul>
+    <li v-for="group in groups">
+      {{ group.name }}
+    </li>
+  </ul>
+
+  <input type="text" v-model="group.name">
+  <button v-on:click="createGroup">NOVO GRUPO</button>
 
 </div>
 

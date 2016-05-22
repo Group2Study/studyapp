@@ -6,15 +6,15 @@ Rails.application.routes.draw do
 
   controller 'tags' do
     get '/tags' => :index
-    get '/tags/search' => :search
+    post '/tags/search' => :search
   end
 
-  #controller 'groups' do
-  #  get '/groups' => :index
-  #  get '/groups/new' => :new
-  #end
+  controller 'groups' do
+    get '/groups' => :index
+    post '/groups/new' => :new
+    post '/groups/list' => :list
+  end
 
-  resources :groups
 
   #facilita acesso a resourses
   # resources :tags

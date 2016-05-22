@@ -1,18 +1,32 @@
 var groups = new Vue({
   el: '#groups',
   data: {
-    tags: [],
-    tag: {
+    groups: [],
+    group: {
       name: ''
     },
     errors: {}
   },
   ready: function() {
     //alert('ready groups');
+
+    $.ajax({
+      method: 'POST',
+      url: '/groups/list.json',
+      success: function(res) {
+        that.errors = {}
+        that.groups = {}
+        that.groups.push(res);
+      },
+      error: function(res) {
+        that.errors = res.responseJSON.errors
+      }
+    })
+
   },
   methods: {
-    executeMethod: function () {
-      alert('executeMethod');
+    createGroup: function () {
+      alert('GN: ' + this.group.name);
       /*
       var that = this;
       $.ajax({
