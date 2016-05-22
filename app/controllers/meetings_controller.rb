@@ -1,14 +1,28 @@
 class MeetingsController < ApplicationController
 
   def index
-    puts "GroupMeetingController: GROUP: #{self.params[:id]}"
+    puts "GroupMeetingController:index# GROUP: #{self.params[:group_id]}"
 
+    @group_id = params[:group_id]
+
+
+  end
+
+  def list
+    puts "GroupMeetingController:list# GROUP: #{params[:group_id]}"
+
+    @meetings = Meeting.all().where(group_id: params[:group_id])
+
+    respond_to do |format|
+      #format.html
+      format.json { render :json => @meetings }
+    end
 
   end
 
   def generate
 
-    puts "GroupMeetingController: GROUP: #{params[:id]}"
+    puts "GroupMeetingController:generate# GROUP: #{params[:group_id]}"
 
     initial_date = Date.parse(params['initial_date']) 
     end_date = Date.parse(params['end_date'])
@@ -53,7 +67,7 @@ class MeetingsController < ApplicationController
       current_date = initial_date
       while current_date < end_date
         
-        meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time})
+        meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: params[:id]})
         meeting.save
 
         @meetings << meeting
@@ -79,6 +93,9 @@ class MeetingsController < ApplicationController
       end
 
     end
+
+
+    puts "generate# #{@meetings}"
 
     
     respond_to do |format|

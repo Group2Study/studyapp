@@ -10,23 +10,33 @@ var meetings = new Vue({
       end_time: '',
       multiplier: 1,
       periodicity: 1,
-      week_days: [false, true, true, true, true, true, false]
+      week_days: [false, true, true, true, true, true, false],
+      group_id: ''
     },
     add_meeting: false,
     add_meeting_week_day: false,
     add_meeting_periodicity: true
   },
   ready: function() {
-    var that;
-    that = this;
-    $.ajax({
-      url: '/meetings.json',
-      success: function(res) {
-        that.meetings = res;
-      }
-    });
+    
   },
   methods: {
+    setGroup: function (group_id) {
+      this.meeting.group_id = group_id;
+
+      var that;
+      that = this;
+      $.ajax({
+        method: 'POST',
+        url: '/meetings/list.json',
+        data: {
+          group_id: this.meeting.group_id
+        },
+        success: function(res) {
+          that.meetings = res;
+        }
+      });
+    },
     showCreateMeeting: function () {
       this.add_meeting = true;
     },

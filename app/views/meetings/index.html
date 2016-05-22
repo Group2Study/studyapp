@@ -1,6 +1,7 @@
 MEETINGS
 
 <div id="meetings">
+
   <button v-on:click="showCreateMeeting">NOVO ENCONTRO</button>
   <div v-show="add_meeting">
     Inicio: <input type="text" v-model="meeting.initial_date" class="datepicker"><br>
@@ -61,3 +62,7 @@ MEETINGS
 </div>
 
 <%= javascript_include_tag 'meetings' %>
+
+<script>
+  meetings.setGroup(<%= @group_id %>);
+</script>
