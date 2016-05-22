@@ -19,10 +19,6 @@ class GroupsController < ApplicationController
     end
   end
 
-  def new
-    @group = Group.new
-  end
-
   def create
     puts " GROUP CREATE "
     puts params['data'].to_h
