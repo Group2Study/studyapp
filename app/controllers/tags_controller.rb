@@ -17,19 +17,22 @@ class TagsController < ApplicationController
 
     tags_ids = Tag.all.where("lower(name) like '%#{self.params[:search]}%'").pluck(:id)
 
-    #buscar os grupos que tem as tags
-    groups_tags = GroupTag.all.where("tag_id in (#{tags_ids.join(',')})")
-
-    groups_id = groups_tags.pluck(:group_id)
-
-    puts "TagsController::search# groups_tags: #{groups_tags.count}"
-    
-    #puts @params[:search]
-
     @groups = nil
 
-    unless groups_id.empty?
-      @groups = Group.all.where("id in (#{groups_id.join(',')})")
+    unless tags_ids.empty?
+      #buscar os grupos que tem as tags
+      groups_tags = GroupTag.all.where("tag_id in (#{tags_ids.join(',')})")
+
+      
+      groups_id = groups_tags.pluck(:group_id)
+
+      puts "TagsController::search# groups_tags: #{groups_tags.count}"
+      
+      #puts @params[:search]  
+
+      unless groups_id.empty?
+        @groups = Group.all.where("id in (#{groups_id.join(',')})")
+      end
     end
 
     respond_to do |format|
