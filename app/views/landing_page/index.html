@@ -1,24 +1,21 @@
 
 
-<h1>Group2Study</h1>
+<div id="landing_page" class="header-content-inner">
 
-<div id="landing_page">
+<h1>A forma mais eficiente de estudar</h1>
 
-  <ul>
-    
-    <li>Busca 
-        <input type="text" v-model="search_input">
-        <button v-on:click="searchGroups">Buscar</button>
-    </li>
-  </ul>
+
+        <input type="text" v-model="search_input" style="margin: 25px 0 0 0; width: 50%;">
+        <br>
+        <a v-on:click="searchGroups" class="btn btn-primary btn-xl" style="margin: 25px 0 0 0;" >Encontre seu grupo</a>
 
   <ul>
     <li v-for="result in search_results">
       <a href="groups/{{ result.id }}">{{ result.name }}</a>
     </li>
   </ul>
-      
-   
+
+
   <ul>
     <li v-for="tag in tags">
       {{ tag.name }}
@@ -112,7 +109,7 @@ var landing_page = new Vue({
     }
     */
 
-    
+
     searchTags: function () {
       var that = this;
       $.ajax({
@@ -162,4 +159,3 @@ var landing_page = new Vue({
 
 
 </script>
-
