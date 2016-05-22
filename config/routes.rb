@@ -15,6 +15,11 @@ Rails.application.routes.draw do
     post '/groups/list' => :list
   end
 
+  controller 'group_meeting' do
+    get '/group_meeting/:id' => :index
+    post '/group_meeting/send_message' => :send_message
+  end
+
 
   #facilita acesso a resourses
   # resources :tags

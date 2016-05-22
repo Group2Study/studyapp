@@ -1,0 +1,26 @@
+GROUP MEETING
+
+<div id="group_meeting">
+
+  <%= @meeting %><br>
+  <%= @group %><br>
+
+
+  VOLTAR
+
+  MENSAGENS
+
+  ENVIAR MENSAGE
+
+  <ul>
+    <li v-for="message in messages">
+      {{ message.text }}
+    </li>
+  </ul>
+
+  <input type="text" v-model="message_input">
+  <button v-on:click="sendMessage">ENVIAR</button>
+
+</div>
+
+<%= javascript_include_tag 'group_meeting' %>
