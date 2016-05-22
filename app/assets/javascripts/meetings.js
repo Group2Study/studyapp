@@ -52,7 +52,7 @@ var meetings = new Vue({
         success: function(res) {
           that.errors = {}
           
-          that.meetings.push(res);
+          that.meetings = res;
           that.add_meeting = false;
         },
         error: function(res) {

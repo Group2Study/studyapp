@@ -11,7 +11,7 @@ class MeetingsController < ApplicationController
   def list
     puts "GroupMeetingController:list# GROUP: #{params[:group_id]}"
 
-    @meetings = Meeting.all().where(group_id: params[:group_id])
+    @meetings = Meeting.all().where(group_id: params[:group_id]).order(:date)
 
     respond_to do |format|
       #format.html
@@ -43,6 +43,7 @@ class MeetingsController < ApplicationController
     increment = (1 * periodicity_multiplier).days
 
     if periodicity == "dia_semana"
+      increment = nil
       #precisa gerar os events para cada dia de semana
         #pode ter caso de ter alguns dias de semana?
         #pode ter um array das semanas!
@@ -59,7 +60,7 @@ class MeetingsController < ApplicationController
      puts "generate INC: #{increment} MUL: #{periodicity_multiplier}"
 
 
-    @meetings = []
+  
     if increment
       #increment = increment * Integer(periodicity_multiplier)
 
@@ -67,10 +68,10 @@ class MeetingsController < ApplicationController
       current_date = initial_date
       while current_date < end_date
         
-        meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: params[:id]})
+        meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: params[:group_id]})
         meeting.save
 
-        @meetings << meeting
+        #@meetings << meeting
 
         puts "generate# current_date: #{current_date}"
 
@@ -79,25 +80,48 @@ class MeetingsController < ApplicationController
     else
       #base no vetor de dia semana
       base_date = initial_date
-      current_index = base_date.wdays
+      current_index = Integer(base_date.strftime("%w"))
 
-      puts "generate# WEEK_DAYS_BASED #{current_index}"
+      week_days = params[:week_days]
+      
+
+      puts "generate# WEEK_DAYS_BASED #{current_index} week_days: #{week_days}"
+
 
       #itera pelo vetor da semana
         #precisa posicionar a data inicial
 
       while base_date < end_date
+
+        current_date = base_date
+
+        (current_index..6).each do |week_day_index|
+
+          puts "generate# DATE: #{current_date} D: #{week_day_index} V: #{week_days[week_day_index]}" 
+          if week_days[week_day_index] == 'true'
+            meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: params[:group_id]})
+            meeting.save
+          end
+          current_date += 1.day
+        end
+        current_index = 0
+        base_date = base_date.beginning_of_week
+
+        puts "generate# ANTES) base_date: #{base_date} weekday: #{base_date.strftime("%w")}"
+
         base_date += 1.week
 
-        puts "generate# base_date: #{base_date} weekday: "
+        puts "generate# DEPOIS) base_date: #{base_date} weekday: #{base_date.strftime("%w")}"
+
+       
       end
 
     end
 
+    @meetings = Meeting.all().where(group_id: params[:group_id]).order(:date)
 
     puts "generate# #{@meetings}"
 
-    
     respond_to do |format|
       #format.html
       format.json { render :json => @meetings }
