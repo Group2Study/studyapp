@@ -28,6 +28,10 @@
 
 
 
+  <div v-show="group.id">
+    <a href="/meetings/{{ group.id }}" class="btn btn-primary btn-xl">AGENDA</a>
+  </div>
+
     <div v-show="group.id">
 
 
@@ -81,9 +85,7 @@
   </div>
 
 
-  <div v-show="group.id">
-    <a href="/meetings/{{ group.id }}" class="btn btn-primary btn-xl">AGENDA</a>
-  </div>
+  
 
 </div>
 
