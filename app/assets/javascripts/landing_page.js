@@ -22,9 +22,29 @@ var landing_page = new Vue({
   */
   },
   methods: {
+    searchGroups: function () {
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: this.search_input,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          this.search_results = []
+          this.search_results.push(res);
+          //that.tags = []
+          //that.tags.push(res);
+          //that.tags = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+    }
+    
+    /*
     searchTags: function () {
-      
-
       var that = this;
       $.ajax({
         method: 'POST',
@@ -44,6 +64,7 @@ var landing_page = new Vue({
           that.errors = res.responseJSON.errors
         }
       })
+*/
 
       /*
       var that = this;

@@ -8,13 +8,13 @@
     
     <li>Busca 
         <input type="text" v-model="search_input">
-        <button v-on:click="searchTags">Buscar</button>
+        <button v-on:click="searchGroups">Buscar</button>
     </li>
   </ul>
 
   <ul>
     <li v-for="result in search_results">
-      {{ result }}
+      <a href="groups/{{ result.id }}">{{ result.name }}</a>
     </li>
   </ul>
       
@@ -41,5 +41,125 @@
 
 </div>
 
-<%= javascript_include_tag 'landing_page' %>
+<script>
+var landing_page = new Vue({
+  el: '#landing_page',
+  data: {
+    tags: [],
+    tag: {
+      name: ''
+    },
+    search_results: [],
+    search_input: '',
+    errors: {}
+  },
+  ready: function() {
+    /*
+    var that;
+    that = this;
+    $.ajax({
+      url: '/tags.json',
+      success: function(res) {
+        that.tags = res;
+      }
+    });
+  */
+  },
+  methods: {
+    searchGroups: function () {
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: this.search_input,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          //this.search_results = {}
+          //this.search_results.push(res);
+          that.search_results = []
+          that.search_results = res;
+          //that.tags = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+    },
+    /*
+    searchGroups: function () {
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: this.search_input,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          that.search_results = []
+          if (res)
+            that.search_results.push(res);
+          //that.tags = []
+          //that.tags.push(res);
+          //that.tags = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      });
+    }
+    */
+
+    
+    searchTags: function () {
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: this.search_input,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          //this.search_results = {}
+          //this.search_results.push(res);
+          that.tags = []
+          that.tags.push(res);
+          //that.tags = res;
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+
+
+
+      /*
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: value,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          that.employee = {}
+          that.employees.push(res);
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+      */
+    }
+  }
+});
+
+
+
+
+</script>
 
