@@ -6,11 +6,18 @@ Rails.application.routes.draw do
 
   controller 'tags' do
     get '/tags' => :index
-    get '/tags/search_groups' => :search_groups
+    get '/tags/search' => :search
   end
 
+  #controller 'groups' do
+  #  get '/groups' => :index
+  #  get '/groups/new' => :new
+  #end
+
+  resources :groups
+
   #facilita acesso a resourses
-  resources :tags
+  # resources :tags
   #get 'landing_page/index'
 
   devise_for :users

@@ -2,13 +2,20 @@
 <h1>Group2Study</h1>
 
 <ul>
-  
-  <li>Busca 
-    <form>
-      <input type="text">
-      <button @click="searchTags">Hire</button>
-    </form>
-  </li>
+  <div id="search">
+    <li>Busca 
+        <input type="text" id="search_text">
+        <button v-on:click="searchTags">Buscar</button>
+    </li>
+
+
+    <ul>
+      <li v-for="result in search_results">
+        {{ result }}
+      </li>
+    </ul>
+    
+  </div>
 
   
   <% if user_signed_in? %>
@@ -31,3 +38,8 @@
     </li>
   </ul>
 </div>
+
+
+
+
+<a href="groups">Meus Grupos</a>

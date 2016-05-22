@@ -18,8 +18,9 @@ var tags = new Vue({
     });
   },
   methods: {
-    searchTags: function (value) {
-      alert(value);
+    searchTags: function () {
+      alert($('search_text').html());
+      /*
       var that = this;
       $.ajax({
         method: 'POST',
@@ -36,6 +37,42 @@ var tags = new Vue({
           that.errors = res.responseJSON.errors
         }
       })
+      */
+    }
+  }
+});
+
+
+var search = new Vue({
+  el: '#search',
+  data: {
+    search_results: [],
+    errors: {}
+  },
+  ready: function() {
+    alert('ready');
+  },
+  methods: {
+    searchTags: function () {
+      alert('searchTags');
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          search: value,
+        },
+        url: '/tags/search.json',
+        success: function(res) {
+          that.errors = {}
+          that.search_results = {}
+          that.search_results.push(res);
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+      
     }
   }
 });

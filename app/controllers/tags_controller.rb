@@ -11,7 +11,8 @@ class TagsController < ApplicationController
     
   end
 
-  def search_groups
+  def search
+    puts "TagsController::search"
     puts @params
   end
 
