@@ -4,8 +4,8 @@ GRUPOS DE ESTUDO
 
   <a v-on:click="showCreateMeeting" class="btn btn-primary btn-xl">Agendar</a>
   <div v-show="add_meeting">
-    Inicio: <input type="text" v-model="meeting.initial_date" class="datepicker"><br>
-    Fim: <input type="text" v-model="meeting.end_date" class="datepicker"><br>
+    Inicio: <input type="text" v-model="meeting.initial_date" class="datepicker" data-date-format="mm/dd/yyyy"><br>
+    Fim: <input type="text" v-model="meeting.end_date" class="datepicker" data-date-format="mm/dd/yyyy"><br>
     Horario inicio: <input type="text" v-model="meeting.start_time" class="timepicker"><br>
     Horario fim: <input type="text" v-model="meeting.end_time"><br>
     Periodicidade:
@@ -29,8 +29,8 @@ GRUPOS DE ESTUDO
       <option value="ano">ano</option>
     </select>
     
-    <button v-on:click="createNewMeeting">Criar</button>
-    <button v-on:click="hideCreateMeeting">Cancela</button>
+    <a v-on:click="createNewMeeting" class="btn btn-primary btn-xl">Criar</a>
+    <a v-on:click="hideCreateMeeting" class="btn btn-primary btn-xl">Cancela</a>
   </div>
 
   <ul>
@@ -60,6 +60,7 @@ GRUPOS DE ESTUDO
     });
   </script>
 -->
+
 </div>
 
 <script>
@@ -84,7 +85,9 @@ var meetings = new Vue({
     add_meeting_periodicity: true
   },
   ready: function() {
-    
+    $('.datepicker').datepicker({
+        startDate: '-3d'
+    });
   },
   methods: {
     setGroup: function (group_id) {

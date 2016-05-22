@@ -38,3 +38,4 @@ gem 'devise', '~> 3.4.0'
 #gem 'vuejs-rails'
 
 #gem 'pg'
+gem 'bootstrap-datepicker-rails'
