@@ -9,7 +9,7 @@ tag_types = TagType.create([{name: 'Instituicao', key: 'institute'}, {name: 'Mat
 
 tags = Tag.create([{name: 'Matematica', tag_type_id: tag_types.second.id} , {name: 'Fisica', tag_type_id: tag_types.second.id}, { name: 'Portugues', tag_type_id: tag_types.second.id }, {name: 'ITA', tag_type_id: tag_types.first.id}, {name: 'IME', tag_type_id: tag_types.first.id}, {name: 'USP', tag_type_id: tag_types.first.id}, {name: 'Eletronica', tag_type_id: tag_types.second.id}])
 
-groups = Group.create([{name: 'ita matematica'}, {name: 'usp medicina'}, {name: 'ele 72'}])
+groups = Group.create([{name: 'ita matematica'}, {name: 'usp medicina'}, {name: 'ele 72'}, {name: 'turismo puc minas'}])
 puts groups.class
 
-groups_tags = GroupTags.create([{group_id: groups.first.id, tag_id: tags.first.id}, {group_id: groups.first.id, tag_id: tags[3].id}])
+groups_tags = GroupTag.create([{group_id: groups.first.id, tag_id: tags.first.id}, {group_id: groups.first.id, tag_id: tags[3].id}])

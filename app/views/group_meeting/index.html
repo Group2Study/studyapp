@@ -17,7 +17,41 @@
   <a v-on:click="sendMessage" class="btn btn-primary btn-xl">ENVIAR</a>
 
   <br>
-  <a href="/groups/meetings/" class="btn btn-primary btn-xl">VOLTAR</a><br>
+  <a href="/meetings/<%= @group.id %>" class="btn btn-primary btn-xl">VOLTAR</a><br>
+
+  <div v-show="not_show_association">
+    <a class="btn btn-primary" v-on:click="showAssociationForm">Associar tema</a>
+  </div>
+
+  <div v-show="show_association">
+
+
+    <div v-show="not_show_create_theme">
+    <input type="text" v-model="theme_input" v-on:keyup="searchThemes">
+
+    <select v-model='current_selected_theme'>
+      <option v-for="theme in themes" data-enumeration="true" value="{{ theme.id}}" >
+        {{ theme.name }}
+      </option>
+    </select>
+    <a class="btn btn-primary" v-on:click="associateTheme">Associar</a>
+
+
+    <a class="btn btn-primary" v-on:click="showCreateTheme" >Criar novo tema</a>
+
+  </div>
+
+    <div v-show="show_create_theme">
+        <input type="text" v-model="theme_create_input"></input>
+
+        <a class="btn btn-primary" v-on:click="createTheme">Criar</a>      
+        <a class="btn btn-primary" v-on:click="hideCreateTheme">Cancelar</a>
+    </div>
+    
+
+
+    <a class="btn btn-primary"v-on:click="hideAssociationForm" v-show="not_show_create_theme">Cancelar</a>
+  </div>
 
 </div>
 
@@ -31,7 +65,16 @@ var group_meeting = new Vue({
     messages: [],
     last_message: '',
     message_input: '',
+    show_association: false,
+    not_show_association: true,
+    themes: [],
+    theme_input: '',
+    show_create_theme: false,
+    not_show_create_theme: true,
+    theme_create_input: '',
+    current_selected_theme: '',
     errors: {}
+
   },
   ready: function() {
     this.updateMessages();
@@ -70,6 +113,126 @@ var group_meeting = new Vue({
 
       //alert('GN: ' + this.group.name);
 
+    },
+    showAssociationForm: function() {
+      this.show_association = true;
+      this.not_show_association = false;
+    },
+    hideAssociationForm: function() {
+      this.show_association = false;
+      this.not_show_association = true;
+      this.theme_input = '';
+    },
+    showCreateTheme: function()
+    {
+      this.show_create_theme = true;
+      this.not_show_create_theme = false;
+    },
+    hideCreateTheme: function()
+    {
+      this.show_create_theme = false;
+      this.not_show_create_theme = true;
+      this.theme_create_input = '';
+    },
+    createTheme: function()
+    {
+      //alert('crerateTheme: ' + this.theme_create_input);
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          id: this.meeting_id,
+          input: this.theme_create_input,
+        },
+        url: '/meetings/create_theme.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          //alert(res);
+          //em geral nao vai retornar nada!
+          
+          that.show_create_theme = false;
+          that.not_show_create_theme = true;
+          that.theme_create_input = '';
+          that.show_association = false;
+          that.not_show_association = true;
+          that.theme_input = '';
+/*
+          if (res)
+          {
+            alert(res);
+            //that.institutes = res;
+          }
+          */
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+    },
+    associateTheme: function()
+    {
+      //alert('associate_theme: ' + this.current_selected_theme);
+
+
+      var that = this;
+      $.ajax({
+        method: 'POST',
+        data: {
+          id: this.meeting_id,
+          tag_id: this.current_selected_theme,
+        },
+        url: '/meetings/associate_theme.json',
+        success: function(res) {
+          that.errors = {}
+          //that.group = {}
+          //alert(res);
+          //em geral nao vai retornar nada!
+
+          that.show_association = false;
+          that.not_show_association = true;
+          that.theme_input = '';
+
+          if (res)
+          {
+            alert(res);
+            //that.institutes = res;
+          }
+        },
+        error: function(res) {
+          that.errors = res.responseJSON.errors
+        }
+      })
+    },
+    searchThemes: function()
+    {
+      if (this.theme_input.length > 2)
+      {
+        var that = this;
+        $.ajax({
+          method: 'POST',
+          data: {
+            input: this.theme_input,
+          },
+          url: '/tags/list_themes.json',
+          success: function(res) {
+            that.errors = {}
+            //this.search_results = {}
+            //this.search_results.push(res);
+            if (res)
+            {
+              that.themes = res;
+            }
+            //last_message = res.id;
+            //alert('last: ' + res.id);
+            //that.tags = res;
+          },
+          error: function(res) {
+            that.errors = res.responseJSON.errors
+          }
+        })
+      }
     },
     updateMessages: function () {
       //alert('updateMessages');

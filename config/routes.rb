@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     get 'meetings/:id' => :index
     post 'meetings/generate/' => :generate
     post 'meetings/list/' => :list
+    post 'meetings/associate_theme' => :associate_theme
+    post 'meetings/create_theme' => :create_theme
   end
 
 

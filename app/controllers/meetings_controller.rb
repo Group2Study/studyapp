@@ -21,6 +21,68 @@ class MeetingsController < ApplicationController
 
   end
 
+
+  def create_theme
+    meeting_id = params[:id]
+    name = params[:input]
+
+    tag_type = TagType.find_by("key = 'theme'")
+    tag = Tag.new(tag_type_id: tag_type.id, name: name)
+    tag.save
+
+    #associar a tag
+
+    meeting = Meeting.find(meeting_id);
+
+    tag_association = MeetingTag.new(meeting_id: meeting_id, tag_id: tag.id);
+    tag_association.save
+
+    
+    group_tag = GroupTag.new(group_id: meeting.group.id, tag_id: tag.id)
+    group_tag.save
+
+    respond_to do |format|
+      #format.html
+      format.json { render :json => tag }
+    end
+
+  end
+
+
+  def associate_theme
+    meeting_id = params[:id]
+    tag_id = Integer(params[:tag_id])
+
+    #recupera as tags do meeting
+    meeting = Meeting.find(meeting_id);
+    meetings_tags_ids = meeting.tags.pluck(:id)
+
+    puts "associate_theme# ag_id: #{tag_id}  meetings_tags_ids: #{meetings_tags_ids}"
+
+    if not meetings_tags_ids.include?(tag_id)
+
+      tag_association = MeetingTag.new(meeting_id: meeting_id, tag_id: tag_id);
+      tag_association.save
+
+      
+      tags_ids = meeting.group.tags.pluck(:id)
+      if not tags_ids.include?(tag_id)
+        puts "associate_theme# NAO TEM TAG tag_id: #{tag_id} GROUP_TAGS: #{tags_ids}"
+        group_tag = GroupTag.new(group_id: meeting.group.id, tag_id: tag_id)
+        group_tag.save
+      end
+    else
+      puts "associate_theme# JA TEM TAG"
+    end
+    
+
+    respond_to do |format|
+      #format.html
+      format.json { render :json => @tag_association }
+    end
+
+  end
+
   def generate
 
     puts "GroupMeetingController:generate# GROUP: #{params[:group_id]}"

@@ -8,9 +8,6 @@ class TagsController < ApplicationController
     end
   end
 
-  def create
-
-  end
 
   def search
     puts "TagsController::search# P: #{self.params[:search]}"
@@ -55,7 +52,12 @@ class TagsController < ApplicationController
   end
 
   def list_themes
-    @themes = Tag.themes
+
+    if params[:input]
+      @themes = Tag.themes.where("lower(name) like '%#{params[:input]}%'")
+    else
+      @themes = Tag.themes
+    end
     respond_to do |format|
       format.html
       format.json { render :json => @themes }
