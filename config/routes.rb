@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   end
 
   controller 'meetings' do
-    get '/groups/meetings/:id' => :index
+    get 'meetings/:id' => :index
     post 'meetings/generate/' => :generate
     post 'meetings/list/' => :list
   end

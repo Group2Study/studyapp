@@ -1,26 +1,47 @@
-<h1>GROUPS#index</h1>
+<h1>Meus Grupos</h1>
 
 <div id="groups">
-  <ol>
-    <li v-for="group in groups" track-by="$index">
-       <a v-on:click="editGroup($index)">{{ group.name }}</a>
-    </li>
-  </ol>
 
-  <div v-show="adding_group">
-    Nome: <input type="text" v-model="group.name">
-    Privado: <input type="checkbox" v-model="group.private">
-    Administracao Restrita:<input type="checkbox" v-model="group.administrable">
-    <button v-on:click="createGroup">NOVO GRUPO</button>
+  <div class="col-xs-3">
+
+    <ol>
+      <li v-for="group in groups" track-by="$index">
+         <a v-on:click="editGroup($index)">{{ group.name }}</a>
+      </li>
+    </ol>
+  </div>
+  <div class="col-xs-9">
+
+    <div v-show="adding_group">
+      Nome: <input type="text" v-model="group.name">
+      Privado: <input type="checkbox" v-model="group.private">
+      Administracao Restrita:<input type="checkbox" v-model="group.administrable">
+      <a v-on:click="createGroup" class="btn btn-primary btn-xl">SALVAR</a>
+      <a v-on:click="hideGroupForm" class="btn btn-primary btn-xl">CANCELAR</a>
+    
+      <br>
+      Instituicoes:
+      <ul>
+        <li v-for="">
+        </li>
+      </ul>
+
+    </div>
+
+    <a v-on:click="addGroup" class="btn btn-primary btn-xl">NOVO GRUPO</a>
+    
+
   </div>
 
-  <button v-on:click="addGroup">CRIAR GRUPO</button>
+  <br>
+
+  <div v-show="group.id">
+    <a href="meetings/{{ group.id }}" class="btn btn-primary btn-xl">Meetings</a>
+  </div>
 
 </div>
 
 
-
-<a href="meetings/<%= @group_id %>" >Meetings</a>
 
 <script>
 
@@ -84,6 +105,10 @@ var groups = new Vue({
       this.adding_group = true;
       this.group.id = '';
       this.group.name = '';
+    },
+    hideGroupForm: function()
+    {
+      this.adding_group = false;
     },
     editGroup: function (index) {
       //alert('GN: ' + index + ' groups ' + this.groups[index].name + ' ID ' + this.groups[index].id );

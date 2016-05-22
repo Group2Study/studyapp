@@ -1,8 +1,8 @@
-MEETINGS
+GRUPOS DE ESTUDO
 
 <div id="meetings">
 
-  <button v-on:click="showCreateMeeting">NOVO ENCONTRO</button>
+  <a v-on:click="showCreateMeeting" class="btn btn-primary btn-xl">Agendar</a>
   <div v-show="add_meeting">
     Inicio: <input type="text" v-model="meeting.initial_date" class="datepicker"><br>
     Fim: <input type="text" v-model="meeting.end_date" class="datepicker"><br>
