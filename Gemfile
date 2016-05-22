@@ -39,3 +39,4 @@ gem 'devise', '~> 3.4.0'
 
 #gem 'pg'
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-timepicker-rails'

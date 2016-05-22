@@ -16,4 +16,5 @@
 //= require bootstrap-sprockets
 //= require vue/dist/vue
 //= require bootstrap-datepicker
+//= require bootstrap-timepicker
 
