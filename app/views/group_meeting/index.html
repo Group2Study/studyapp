@@ -23,15 +23,13 @@ GROUP MEETING
 
 </div>
 
-<%= javascript_include_tag 'group_meeting' %>
-
 <script>
 
 var group_meeting = new Vue({
   el: '#group_meeting',
   data: {
-    group: '',
-    meeting: '',
+    group_id: '',
+    meeting_id: '',
     messages: [],
     last_message: '',
     message_input: '',
@@ -56,10 +54,12 @@ var group_meeting = new Vue({
           that.errors = {}
           //this.search_results = {}
           //this.search_results.push(res);
+        
           that.messages.push(res);
+          that.last_message = res.id;
 
           //last_message = res.id;
-          alert('last: ' + res);
+          alert('last: ' + res.id);
           //that.tags = res;
         },
         error: function(res) {

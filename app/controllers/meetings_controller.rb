@@ -1,17 +1,17 @@
 class MeetingsController < ApplicationController
 
   def index
-    puts "GroupMeetingController:index# GROUP: #{self.params[:group_id]}"
+    puts "GroupMeetingController:index# GROUP: #{self.params[:id]}"
 
-    @group_id = params[:group_id]
+    @group_id = params[:id]
 
 
   end
 
   def list
-    puts "GroupMeetingController:list# GROUP: #{params[:group_id]}"
+    puts "GroupMeetingController:list# GROUP: #{params[:id]}"
 
-    @meetings = Meeting.all().where(group_id: params[:group_id]).order(:date)
+    @meetings = Meeting.all().where(group_id: params[:id]).order(:date)
 
     respond_to do |format|
       #format.html
@@ -23,6 +23,8 @@ class MeetingsController < ApplicationController
   def generate
 
     puts "GroupMeetingController:generate# GROUP: #{params[:group_id]}"
+
+    group_id = params[:group_id]
 
     initial_date = Date.parse(params['initial_date']) 
     end_date = Date.parse(params['end_date'])
@@ -68,7 +70,7 @@ class MeetingsController < ApplicationController
       current_date = initial_date
       while current_date < end_date
         
-        meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: params[:group_id]})
+        meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: group_id})
         meeting.save
 
         #@meetings << meeting
@@ -99,7 +101,7 @@ class MeetingsController < ApplicationController
 
           puts "generate# DATE: #{current_date} D: #{week_day_index} V: #{week_days[week_day_index]}" 
           if week_days[week_day_index] == 'true'
-            meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: params[:group_id]})
+            meeting = Meeting.new({date: current_date, start_time: start_time, end_time: end_time, group_id: group_id})
             meeting.save
           end
           current_date += 1.day

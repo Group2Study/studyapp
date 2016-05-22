@@ -1,7 +1,7 @@
 class GroupMeetingController < ApplicationController
 
   def index
-    puts "GroupMeetingController: #{self.params[:id]}"
+    puts "GroupMeetingController: #{params[:id]}"
 
     @meeting = Meeting.find_by("group_id = #{params[:id]}")
     if @meeting
