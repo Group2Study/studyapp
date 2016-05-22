@@ -2,14 +2,14 @@
 
 <div id="groups">
 
-  
+
   <h2>{{ group.name }}</h2>
 
 
   <div class="col-xs-3">
 
-    <ol>
-      <li v-for="group in groups" track-by="$index">
+    <ol class="list-group">
+      <li class="list-group-item" v-for="group in groups" track-by="$index">
          <a v-on:click="showGroup($index)">{{ group.name }}</a>
       </li>
     </ol>
@@ -23,7 +23,7 @@
       Administracao Restrita:<input type="checkbox" v-model="group.administrable">
       <a v-on:click="createGroup" class="btn btn-primary btn-xl">SALVAR</a>
       <a v-on:click="hideGroupForm" class="btn btn-primary btn-xl">CANCELAR</a>
-    
+
     </div>
 
 
@@ -31,14 +31,14 @@
 
     <div v-show="group.id">
 
-    
+
       Instituicoes:
       <ul>
         <li v-for="institute in current_institutes">
           {{ institute.name }}
         </li>
       </ul>
-    
+
 
       <div v-show="adding_institute">
 
@@ -58,30 +58,30 @@
 
         <div v-show="creating_insitute">
           Nova instituicao: <input type="text" v-model="institute_create_input" v-on:change="searchInstitue"></input>
-          <a v-show="creating_insitute" v-on:click="createInstitue" class="btn btn-primary btn-xl">CRIAR</a>  
-          <a v-show="creating_insitute" v-on:click="hideCreateInstitue" class="btn btn-primary btn-xl">CANCELAR</a>  
+          <a v-show="creating_insitute" v-on:click="createInstitue" class="btn btn-primary btn-xl">CRIAR</a>
+          <a v-show="creating_insitute" v-on:click="hideCreateInstitue" class="btn btn-primary btn-xl">CANCELAR</a>
         </div>
 
         <a v-show="not_creating_insitute" v-on:click="showCreateInstitue" class="btn btn-primary btn-xl">CRIAR INSTITUICAO</a>
-      
+
 
       </div>
       <a v-show="not_adding_institute" v-on:click="showAddInstitue" class="btn btn-primary btn-xl">ADICIONAR INSTITUICAO</a>
 
       </div>
-  
 
-    
+
+
 
     <div v-show="group.id">
       <a v-on:click="editGroup" class="btn btn-primary btn-xl">EDITAR</a>
     </div>
 
     <a v-on:click="addGroup" class="btn btn-primary btn-xl">NOVO GRUPO</a>
-  
+
   </div>
 
-  
+
   <div v-show="group.id">
     <a href="/meetings/{{ group.id }}" class="btn btn-primary btn-xl">AGENDA</a>
   </div>
@@ -229,7 +229,7 @@ var groups = new Vue({
           //that.group = {}
           //alert(res);
           //em geral nao vai retornar nada!
-          
+
           that.creating_insitute = false;
           that.not_creating_insitute = true;
           that.institute_create_input = '';
@@ -311,7 +311,7 @@ var groups = new Vue({
 
       this.setCurrentGroup(this.groups[index].id);
 
-      //precisa recuperar 
+      //precisa recuperar
 
       // var that = this;
       // $.ajax({
@@ -376,7 +376,7 @@ var groups = new Vue({
         }
       })
 
-      
+
     },
   }
 });
@@ -387,4 +387,3 @@ groups.setCurrentGroup(<%= @group_id %>);
 <% end %>
 
 </script>
-
